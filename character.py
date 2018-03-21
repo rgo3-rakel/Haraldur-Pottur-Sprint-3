@@ -5,6 +5,9 @@ class Character:
         self._description = '' #Setjum sem private breytu
         self._name = ''
 
+    def __del__(self):
+       print("destructor")
+
     def setImage():pass
 
     def getDescription(self):
@@ -26,6 +29,9 @@ class Character:
 class ChooseChar(Character):
     def __init__ (self):
         pass
+
+    def __del__(self):
+       print("destructor")
 
     def wrongInput(self):
         print("Heyrðu nú mig! Það má aðeins velja svarmöguleika 0 eða 1, svo reyndu aftur\n")
@@ -73,12 +79,16 @@ class HarryPotter(Character):
         self.setDescription(des)
         super(Character, self).__init__()
 
+
 class HermioneGranger(Character):
     def __init__(self):
         self.setName('Hermína Guðmundsdóttir')
         des = "Þú hefur valið bráðkláran mugga sem má líkja við gangandi orðabók. Þegar kemur að erfiðum tímum er ávallt hægt að stóla á visku hennar til þess að sigrast á öllum áskorunum.\n"
         self.setDescription(des)
         super(Character, self).__init__()
+
+    def __del__(self):
+       print("destructor")
 
 class GinnyWeasly(Character):
     def __init__(self):
@@ -87,6 +97,9 @@ class GinnyWeasly(Character):
         self.setDescription(des)
         super(Character, self).__init__()
 
+    def __del__(self):
+       print("destructor")
+
 class RonWeasly(Character):
     def __init__(self):
         self.setName('Rúnar Vilmundarson')
@@ -94,7 +107,13 @@ class RonWeasly(Character):
         self.setDescription(des)
         super(Character, self).__init__()
 
+    def __del__(self):
+       print("destructor")
+
 class Dumbledore(Character):
     def __init__(self):
         #Mynd af Dumbledore sem segir:
         super(Character, self).__init__()
+
+    def __del__(self):
+       print("destructor")

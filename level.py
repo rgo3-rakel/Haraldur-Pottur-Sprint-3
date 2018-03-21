@@ -4,17 +4,16 @@ import random
 #Importa klösum úr öðrum file-num
 from character import Character
 from character import ChooseChar
+from hangman import Hangman
 #from questions import question
-
-#Skoða sql (gagnagrunn fyrir texta)
-#Pygame - nota músík og grafík með því!
 
 class Level:
 
     def __init__(self):
         pass
-    #def __del__(self):
-    #    print("destructor")
+
+    def __del__(self):
+       print("destructor")
 
     def beginning(self): #Dumbledore talar
         print("Velkomin/nn í leikinn svaðilfari!")
@@ -48,7 +47,7 @@ class Level:
 
     def looseLevel(self):
         print("Nú hefur þú brugðist félögum þínum í Hogwarts, þú ert komin/nn aftur á byrjunarreit\n")
-        keepGoing = input("Viltu reyna aftur við leikinn? (já/nei) ")
+        keepGoing = input("Viltu reyna aftur við leikinn? (já/nei)\n ")
         if keepGoing == 'já':
             self.beginning()
         elif keepGoing == 'nei':
@@ -57,16 +56,16 @@ class Level:
             sentence = self.inputWrong(0)
             print(sentence)
             self.looseLevel()
+            time.sleep(2)
 
 class Level1(Level):
     def __init__(self):
         super(Level, self).__init__()
 
-    #ATH: forritið virkar ekki ef ég nota destructor!!
-    #def __del__(self):
-    #    print("destructor")
+    def __del__(self):
+       print("destructor")
 
-    def startLevel1(self): #HP tónlist bababa
+    def startLevel1(self):
         print("Nú erum við staðsett í Diagon Alley")
         time.sleep(2)
         self.createCharacter()
@@ -80,7 +79,7 @@ class Level1(Level):
             print ("Velkomin/nn í búningaherbergið")
             time.sleep(2)
 
-            # Veljum character
+            # búum til breytuna character af tilvikinu ChooseChar
             character = chooseChar.choice()
             print('Þú ert ' + character.getName())
             time.sleep(2)
@@ -111,11 +110,14 @@ class Level1(Level):
         else:
             sentence = self.inputWrong(0)
             print(sentence)
-            self.happyChoice()
+            self.happyChoice(character)
 
 class Level2(Level):
     def __init__(self):
         super(Level, self).__init__()
+
+    def __del__(self):
+       print("destructor")
 
     #Setjum upp skeiðklukku og leikmaður hefur ákveðinn langa tíma til að finna 3 sprota
     def findWand(self, character):
@@ -129,79 +131,97 @@ class Level2(Level):
         time.sleep(2)
         self.chooseWand(character)
 
-
-        #EF LEIKMAÐUR TAPAR BORÐINU ÞÁ KALLA Á LOOSELEVEL FALLIÐ!!
-        #Voldemort birtist ef valin er röng kista
-        #Dobby birtist ef valin er rétt kista
-
     def chooseWand(self, character):
+        level4 = Level4()
         listi = [1, 2, 3, 4]
         wand = random.randint(1,4)
         listi.remove(wand)
         countWand = 0
         #Setjum af stað skeiðklukku svo leikmaður hafi takmarkaðan tíma
         now = time.time()
-        timeLimit = now + 30
-        #Gera lykkju sem hættir þegar leikmaður hefur fundið 3 sprota!
+        timeLimit = now + 20
+        #Gera lykkju sem hættir þegar tíminn rennur út
         while time.time() < timeLimit:
-            choiceWand = int(input("Undir hvaða skikkju er töfrasproti? (1, 2, 3, 4)?\n"))
-            if choiceWand == wand:
-                countWand = countWand + 1
-                print("Vel gert " +  character.getName() + ", þú fannst 1 töfrasprota! Núna ertu komin með " + str(countWand) + " sprota")
-                if countWand == 1:
-                    print("Nú vantar þig aðeins 2 sprota til viðbótar")
-                    listi = [1, 2, 3, 4]
-                    wand = random.randint(1,4)
-                    listi.remove(wand)
+            try:
+                choiceWand = int(input("Undir hvaða skikkju er töfrasproti? (1, 2, 3, 4)?\n"))
+                if choiceWand == wand:
+                    countWand = countWand + 1
+                    print("Vel gert " +  character.getName() + ", þú fannst 1 töfrasprota! Núna ertu komin með " + str(countWand) + " sprota.")
+                    if countWand == 1:
+                        print("Nú vantar þig aðeins 2 sprota til viðbótar")
+                        listi = [1, 2, 3, 4]
+                        wand = random.randint(1,4)
+                        listi.remove(wand)
 
-                elif countWand == 2:
-                    print("Nú vantar þig aðeins 1 sprota til viðbótar")
-                    listi = [1, 2, 3, 4]
-                    wand = random.randint(1,4)
-                    listi.remove(wand)
+                    elif countWand == 2:
+                        print("Nú vantar þig aðeins 1 sprota til viðbótar\n")
+                        listi = [1, 2, 3, 4]
+                        wand = random.randint(1,4)
+                        listi.remove(wand)
 
-                elif countWand == 3:
-                    print("Til hamingju, þú hefur fundið alla 3 sprotanna og þar með bjargað þér, " + character.getName() + ", og félögum þínum frá brottrekstri.")
-                    self.readyInput()
-                    words = "Gakktu hægt um gleðinnar dyr þegar stígur þín fyrstu skref inn í borð 3. " + character.getName() + ", þú ert mætt/ur í lokapróf í Hogwarts..."
-                    print(words)
-            elif choiceWand == listi[0] or choiceWand == listi[1] or choiceWand == listi[2]:
-                print("Því miður, gettu betur! En hafðu hraðar hendur því Lávarður Valdimar nálgast!")
-            else:
+                    elif countWand == 3:
+                        print("Til hamingju, þú hefur fundið alla 3 sprotanna og þar með bjargað þér, " + character.getName() + ", og félögum þínum frá brottrekstri.\n")
+                        self.readyInput()
+                        words = "Gakktu hægt um gleðinnar dyr þegar stígur þín fyrstu skref inn í borð 3. " + character.getName() + ", þú ert mætt/ur í lokapróf í Hogwarts..."
+                        print(words)
+                        level4.startLevel4(character)
+                elif choiceWand == listi[0] or choiceWand == listi[1] or choiceWand == listi[2]:
+                    print("Því miður, gettu betur! En hafðu hraðar hendur því Lávarður Valdimar nálgast!\n")
+                else:
+                    sentence = self.inputWrong(1)
+                    print(sentence)
+            except ValueError:
                 sentence = self.inputWrong(1)
                 print(sentence)
-        
+
+        if countWand == 2:
+            print("Tíminn er liðinn!\n Þú náðir aðeins 2 sprotum og skilur einn vin þinn eftir sprotalausan. Reyndu nú aftur og í þetta sinn náðu 3 sprotum!\n")
+            time.sleep(3)
+            self.readyInput()
+            self.chooseWand(character)
+        else:
+            print("Tíminn er liðinn!\n Fjöldi sprota er aðeins: " + str(countWand) + " litla flón! Lávarður Valdimar er mættur og gerir þig brottrækan úr heimi ævintýra, óbreytti muggi!\n")
+            self.looseLevel()
+
 
 class Level3(Level):
     def __init__(self):
         super(Level, self).__init__()
 
-    #def __del__(self):
-        #print("destructor")
-
-#Sækja klasann question úr file questions og tengja hér við eins og í level1
+    def __del__(self):
+       print("destructor")
 
 class Level4(Level):
     def __init__(self):
         super(Level, self).__init__()
 
+    def __del__(self):
+       print("destructor")
+
     def startLevel4(self, character):
         self.readyInput()
         words = "Velkomin í borð númer 4!\n"
         print(words)
-        print("Þú hefur nú náð bóklega hluta námsins í Hogwarts og ert kominn skrefinu nær því að útskrifast sem alvöru galdramaður, " + character.getName() + ". Til að ljúka burtfararprófi verður lögð fyrir þig verkleg þraut. Þú átt að nýta þér þá galdra sem þér hafa verið kenndir beita sprotanum þínum í að galdra fram rétt orð. Athugaðu að hér er aðeins notast við enska stafrófið og lágstafi.")
+        print("Þú hefur nú náð bóklega hluta námsins í Hogwarts og ert kominn skrefinu nær því að útskrifast sem alvöru galdramaður, " + character.getName() + ". Til að ljúka burtfararprófi verður lögð fyrir þig verkleg þraut. Þú átt að nýta þér þá galdra sem þér hafa verið kenndir beita sprotanum þínum í að galdra fram rétt orð. \nAthugaðu að hér er aðeins notast við enska stafrófið og lágstafi.\nAðeins velja einn staf í einu\n")
         time.sleep(1)
-        self.readyInput()
-        self.wordPuzzle()
+        self.wordPlay()
 
-    def wordPuzzle(self):
-        choice = input("Ertu tilbúin í lokaþraut þína í Hogwarts? (já/nei)")
-        #if choice = "já":
-        #elif choice = "nei":
-        #    print("Hér í Hogwarts er ekki liðinn aumingjaskapur svo þú ert hér með gerð/ur brottrækur fyrir fullt og allt!")
-        #    time.sleep(5)
-        #    sys.exit()
-        #else:
-        #    sentence = self.inputWrong()
-        #    print(sentence)
-        #    self.wordPuzzle()
+    def wordPlay(self):
+        lev4 = Hangman()
+        playerChoice = input("Ertu tilbúin í lokaþraut þína í Hogwarts? (já/nei): ")
+        if playerChoice == "já":
+            puzzle = lev4.wordPuzzle()
+            if puzzle == "loss":
+                self.readyInput()
+                lev4.wordPuzzle()
+            else:
+                print("\nThe end! Takk fyrir að spila leikinn Haraldur Pottur og félagar í háska, vertu velkominn aftur!")
+                sys.exit()
+        elif playerChoice == "nei":
+            print("Hér í Hogwarts er ekki liðinn aumingjaskapur svo þú ert hér með gerð/ur brottrækur!")
+            time.sleep(3)
+            self.looseLevel()
+        else:
+            sentence = self.inputWrong(0)
+            print(sentence)
+            self.wordPlay()
