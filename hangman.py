@@ -23,9 +23,12 @@ class Hangman:
             print(emptyLetter)
             print(str(guessCountdown))
 
-            guessLetter = input("Þín ágiskun:")
+            guessLetter = input("Þín ágiskun:").lower()
 
-            if guessLetter in rightWord:
+            if guessLetter in guesses:
+                print("Hey þú hefur valið þennan staf áður, vinsamlegast veldu annan staf!\n")
+
+            elif guessLetter in rightWord:
                 print ("Flott ágiskun! Stafurinn: " + guessLetter + " er einmitt í leyniorðinu.")
                 guesses.append(guessLetter)
                 #Setjum réttan staf inn fyrir _
@@ -33,9 +36,6 @@ class Hangman:
 
             elif len(guessLetter) > 1:
                 print ("Heyrðu nú mig! Þú veist að í hengimann má aðeins velja 1 staf í einu, svo reyndu aftur:")
-
-            elif guessLetter in guesses:
-                print("Þú hefur valið þennan staf áður, vinsamlegast veldu annan staf!\n")
 
             else:
                 print ("Oh nei nei nei! Stafurinn: " + guessLetter + ", er ekki í leyniorðinu kjánarassgat.\n")
@@ -71,9 +71,9 @@ class Hangman:
 
         return guessWord
 
-def main():
-    lev4 = Hangman()
-    lev4.wordPuzzle()
+#def main():
+#    lev4 = Hangman()
+#    lev4.wordPuzzle()
 
-if __name__ == '__main__':
-    main()
+#if __name__ == '__main__':
+#    main()

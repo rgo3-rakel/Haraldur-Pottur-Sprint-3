@@ -79,6 +79,8 @@ class HarryPotter(Character):
         self.setDescription(des)
         super(Character, self).__init__()
 
+    def __del__(self):
+       print("destructor")
 
 class HermioneGranger(Character):
     def __init__(self):
