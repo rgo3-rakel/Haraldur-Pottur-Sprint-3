@@ -180,13 +180,15 @@ class Level2(Level):
             print("Tíminn er liðinn!\n Fjöldi sprota er aðeins: " + str(countWand) + " litla flón! Lávarður Valdimar er mættur og gerir þig brottrækan úr heimi ævintýra, óbreytti muggi!\n")
             self.looseLevel()
 
-
 class Level3(Level):
-    def __init__(self):
-        super(Level, self).__init__()
+
+    def __init__(self, selectedcharacter):
+        self._character = selectedcharacter
+
+#SJÁ Í LEVEL3 file-num
 
     def __del__(self):
-       print("destructor")
+        print ('destructor')
 
 class Level4(Level):
     def __init__(self, selectedCharacter):
