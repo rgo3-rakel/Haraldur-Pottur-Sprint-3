@@ -3,13 +3,16 @@ from unittest import mock
 from unittest.mock import patch
 import sys
 import random
+import os
 import io
 from io import StringIO
 from subprocess import call
 
 from level import Level
 from level import Level1
+from level import Level2
 from character import Character
+from character import ChooseChar
 from hangman import Hangman
 
 class TestLevel(unittest.TestCase):
@@ -39,15 +42,47 @@ class TestHangman(unittest.TestCase):
     def test_3(self):
         self.assertEqual(self.a.rightGuess("ron", "___", "r"), "r__")
 
+
+
+
+
+
 #class TestLevel1(unittest.TestCase):
 #    def setUp(self):
 #        self.lev1 = Level1()
+#        self.lev = Level()
+#        self.character = ChooseChar()
 
 #    @patch("sys.stdin", StringIO("já"))
 #    def test_2(self):
 #        answer = self.lev1.createCharacter()
 #        self.assertEqual(answer, 'já')
 #        self.assertTrue(answer)
+
+#    def test_2(self):
+#        with mock.patch('sys.stdout', new_callable=StringIO) as mock_stdout:
+#            self.lev.looseLevel()
+#            assert mock_stdout.getvalue() == "Nú hefur þú brugðist félögum þínum í Hogwarts, þú ert komin/nn aftur á byrjunarreit\n"
+
+#    @mock.patch('sys.stdout', new_callable=StringIO)
+#    def main_op(self, tst_str, mock_stdout):
+#        with mock.patch('builtins.input', side_effect=tst_str):
+#            self.lev1.happyChoice('Haraldur Pottur')
+#        return mock_stdout.getvalue()
+
+
+#    def test_4(self):
+#        b = 'já'
+#        it( 'já', function() expect self.readyInput();
+#        self.assertEqual(self.main_op([b]), b)
+
+        #for s in ('a', '1', '<' ):
+        #    self.assertEqual(self.main_op([s]), s + self.lev.inputWrong(0))
+
+
+
+    #def test_3(self):
+
 #    def test_4(self):
 #        capturedOutput = io.StringIO()
 #        sys.stdout = capturedOutput
@@ -62,12 +97,7 @@ class TestHangman(unittest.TestCase):
     #    self.level = level()
     #    level.wrongInput()
 
-    #def test_2(self):
-    #    with mock.patch('sys.stdout', new_callable=StringIO) as mock_stdout:
-    #        self.lev.looseLevel()
-    #        assert mock_stdout.getvalue() == "Nú hefur þú brugðist félögum þínum í Hogwarts, þú ert komin/nn aftur á byrjunarreit\n"
 
-    #def test_3(self):
     #    capturedOutput = io.StringIO()                  # Create StringIO object
     #    sys.stdout = capturedOutput                     #  and redirect stdout.
     #    self.lev.looseLevel()                           # Call function.

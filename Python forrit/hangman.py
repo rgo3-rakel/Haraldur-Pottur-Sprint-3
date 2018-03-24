@@ -1,8 +1,7 @@
 import time
 import random
 
-
-class Hangman:
+class Hangman():
     def __init__(self):
         self.words = ["hogwarts", "harry", "ron", "voldemort", "dobby", "hedwig", "snape", "potter", "hagrid", "muggi", "blendingsprinsinn"]
 
