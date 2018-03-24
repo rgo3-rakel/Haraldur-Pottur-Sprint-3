@@ -2,14 +2,16 @@ import time
 import random
 
 class Hangman():
-    def __init__(self):
-        self.words = ["hogwarts", "harry", "ron", "voldemort", "dobby", "hedwig", "snape", "potter", "hagrid", "muggi", "blendingsprinsinn"]
+    def __init__(self, hangmanLives):
+        self._lives = hangmanLives
+        self._words = ["hogwarts", "harry", "ron", "voldemort", "dobby", "hedwig", "snape", "potter", "hagrid", "muggi", "blendingsprinsinn"]
+
 
     def __del__(self):
        print("destructor")
 
     def wordPuzzle(self):
-        rightWord = random.choice(self.words)
+        rightWord = random.choice(self._words)
 
         #Setjum _ í stað fjölda þeirra stafa sem eru í random orðinu.
         emptyLetter = "_" * len(rightWord)
@@ -21,6 +23,7 @@ class Hangman():
         while guessCountdown >= 0 and not emptyLetter == rightWord:
             print(emptyLetter)
             print(str(guessCountdown))
+            print("Líf: " + str(self._lives))
 
             guessLetter = input("Þín ágiskun:").lower()
 
@@ -40,7 +43,7 @@ class Hangman():
                 print ("Oh nei nei nei! Stafurinn: " + guessLetter + ", er ekki í leyniorðinu kjánarassgat.\n")
                 guesses.append(guessLetter)
                 if guessCountdown <= 0:
-                    print("Æji nei, rétta orðið var: " + rightWord + ".")
+                    print("Æji nei, rétta orðið var: " + rightWord + ".\n")
                     break
                 #mögulega setja inn nei nei nei með áttunni hljóðbút
                 else:
@@ -48,10 +51,19 @@ class Hangman():
                     print("Nú áttu aðeins " + str(guessCountdown) + " rangar ágiskanir upp á að hlaupa. \nEf þú nærð ekki orðinu birtist hinn illi Lávarður Valdimar og hver veit hvað hann getur gert þér!")
 
         if guessCountdown == 0:
-            print ("Ó jæja fall er fararheill. \nÞú tapaðir í þetta skiptið og Dumbledore er mjög vonsvikinn en hefur ákveðið að gefa þér annað tækifæri, nýttu það vel!\n")
-            time.sleep(3)
-            loss = "loss"
-            return loss
+            print ("Ó jæja fall er fararheill. \nÞú tapaðir í þetta skiptið og Dumbledore er mjög vonsvikinn en hefur ákveðið að gefa þér annað tækifæri.\n")
+            chance = ""
+            self._lives -= 1
+            while self._lives > 0:
+                print("Athugaðu að þolinmæði Dumbledore er takmörkuð og því áttu aðeins " + str(self._lives) + " tækifæri eftir áður en þú verður gerður brottrækur úr heimi ævintýranna...\n")
+                time.sleep(3)
+                chance = "still alive"
+                return chance
+
+            if self._lives ==0:
+                print("Þolinmæði Dumbledore er á þrotum...\n Þú ert hér með brottrækur úr heimi ævintýranna")
+                loss = "loss"
+                return loss
         else:
             print ("Jibbí til hamingju! Leyniorðið var: " + rightWord + "! Þú ert hér með búinn að ná öllum prófum Hogwarts og nú er ekkert annað til fyrirstöðu en að fagna og útskrifast...")
             win = "win"

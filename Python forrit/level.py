@@ -159,7 +159,7 @@ class Level2(Level):
                     elif countWand == 3:
                         print("Til hamingju, þú hefur fundið alla 3 sprotanna og þar með bjargað þér, " + self._character.getName() + ", og félögum þínum frá brottrekstri.\n")
                         self.readyInput()
-                        words = "Gakktu hægt um gleðinnar dyr þegar stígur þín fyrstu skref inn í borð 3. " + self._character.getName() + ", þú ert mætt/ur í lokapróf í Hogwarts..."
+                        words = "Gakktu hægt um gleðinnar dyr þegar stígur þín fyrstu skref inn í borð 3. " + self._character.getName() + ", þú ert mætt/ur í lokapróf í Hogwarts...\n"
                         print(words)
                         level4.startLevel4()
                 elif choiceWand == listi[0] or choiceWand == listi[1] or choiceWand == listi[2]:
@@ -176,7 +176,8 @@ class Level2(Level):
             time.sleep(3)
             self.readyInput()
             self.chooseWand()
-        else:
+
+        elif countWand == 1 or countWand == 0:
             print("Tíminn er liðinn!\n Fjöldi sprota er aðeins: " + str(countWand) + " litla flón! Lávarður Valdimar er mættur og gerir þig brottrækan úr heimi ævintýra, óbreytti muggi!\n")
             self.looseLevel()
 
@@ -193,6 +194,7 @@ class Level3(Level):
 class Level4(Level):
     def __init__(self, selectedCharacter):
         self._character = selectedCharacter
+        self._lives = 3
 
     def __del__(self):
        print("destructor")
@@ -206,16 +208,22 @@ class Level4(Level):
         self.wordPlay()
 
     def wordPlay(self):
-        lev4 = Hangman()
-        playerChoice = input("Ertu tilbúin í lokaþraut þína í Hogwarts? (já/nei): ")
+        lev4 = Hangman(self._lives)
+        playerChoice = input("Ertu tilbúin í lokaþraut þína í Hogwarts? (já/nei): \n")
         if playerChoice == "já":
+            print("Þú byrjar 3 með \"líf\" eða eins og Dumbledore kallar það \"tækifæri\". Good luck...\n")
             puzzle = lev4.wordPuzzle()
+
+            while puzzle == "still alive":
+                self.readyInput()
+                puzzle = lev4.wordPuzzle()
             if puzzle == "loss":
                 self.readyInput()
-                lev4.wordPuzzle()
-            else:
-                print("\nThe end! Takk fyrir að spila leikinn Haraldur Pottur og félagar í háska, vertu velkominn aftur!")
-                sys.exit()
+                self.looseLevel()
+
+            print("\nThe end! Takk fyrir að spila leikinn Haraldur Pottur og félagar í háska, vertu velkominn aftur!")
+            sys.exit()
+
         elif playerChoice == "nei":
             print("Hér í Hogwarts er ekki liðinn aumingjaskapur svo þú ert hér með gerð/ur brottrækur!")
             time.sleep(3)
